@@ -5,7 +5,7 @@ Other readers' lights appear only after a reader has finished, so each reading s
 
 **Live demo:** https://linachoshha.github.io/torchlit/
 
-![TorchLit preview](torchlit-preview.gif)
+![A reader lighting lines in TorchLit](torchlit-demo.gif)
 
 ## How it works
 
