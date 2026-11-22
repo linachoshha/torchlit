@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Light the lines where something happens for you. Then see how other minds travelled through the same words.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Torchlit — The Pomelo Tree">
+<meta property="og:description" content="Light the lines where something happens for you. Then see how other minds travelled through the same words.">
+<meta property="og:image" content="https://linachoshha.github.io/torchlit/torchlit-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="A passage with certain lines glowing.">
+<meta property="og:url" content="https://linachoshha.github.io/torchlit/">
+<meta property="og:site_name" content="Torchlit">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Torchlit — The Pomelo Tree">
+<meta name="twitter:description" content="Light the lines where something happens for you.">
+<meta name="twitter:image" content="https://linachoshha.github.io/torchlit/torchlit-preview.png">
+<meta name="theme-color" content="#15121B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Torchlit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15121B;
+  --ink-soft:#1E1926;
+  --paper:#E8E1D9;
+  --dim:#877E92;
+  --g2:#C4924F;
+  --g3:#F7DCA6;
+  --author:#6FA3C7;
+  --crowd:#8FBF9E;
+  --line:rgba(232,225,217,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+
+.screen{display:none;animation:fade .6s ease}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* ─────────── entry ─────────── */
+#start{max-width:520px;margin:0 auto;padding:14vh 30px 60px;text-align:center}
+.mark{width:40px;height:40px;margin:0 auto 36px;border-radius:50%;
+  background:radial-gradient(circle,var(--g3),var(--g2) 42%,transparent 72%);
+  animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.35;transform:scale(.86)}50%{opacity:1;transform:scale(1.12)}}
+h1{font-family:'Spectral',Georgia,serif;font-weight:200;font-size:2.4rem;letter-spacing:-.02em;margin-bottom:16px}
+.sub{color:var(--dim);font-size:.95rem;font-weight:300;max-width:34ch;margin:0 auto 44px;line-height:1.8}
+.choice{display:block;width:100%;text-align:left;background:none;border:1px solid var(--line);
+  border-radius:2px;padding:22px 24px;margin-bottom:12px;color:var(--paper);font-family:inherit;
+  font-size:1rem;cursor:pointer;transition:border-color .3s,background .3s}
+.choice:hover,.choice:focus-visible{border-color:var(--g2);background:rgba(196,146,79,.05);outline:none}
+.choice b{display:block;font-family:'Spectral',serif;font-weight:400;font-size:1.15rem;margin-bottom:6px}
+.choice span{color:var(--dim);font-size:.86rem;font-weight:300;line-height:1.65}
+.sub{min-height:2.6em}
+.sub .w{opacity:0;transition:opacity .5s ease;padding:2px 3px;border-radius:8px;display:inline-block}
+.sub .w.in{opacity:1}
+.sub .w.l1{color:#EDE6DE;background:rgba(133,110,155,.13);
+  box-shadow:0 0 14px 4px rgba(133,110,155,.10)}
+.sub .w.l2{color:#FAEDD6;background:rgba(207,158,87,.22);
+  box-shadow:0 0 22px 8px rgba(207,158,87,.20);text-shadow:0 0 12px rgba(230,183,110,.5)}
+.sub .w.l3{color:#FFF6E2;animation:p3 2.2s ease-in-out infinite}
+.shelf{display:flex;flex-direction:column;gap:10px}
+.enter{width:100%;text-align:left;background:none;border:1px solid var(--line);
+  border-radius:2px;padding:20px 22px;color:var(--paper);font-family:'Spectral',serif;
+  font-weight:300;font-size:1.22rem;cursor:pointer;transition:border-color .3s,background .3s;
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.enter:hover,.enter:focus-visible{border-color:var(--g2);background:rgba(196,146,79,.05);outline:none}
+.enter .meta{font-family:'Inter',sans-serif;font-size:.7rem;color:var(--dim);
+  letter-spacing:.08em;white-space:nowrap;font-weight:300}
+.enter.done .meta{color:var(--g2);opacity:.85}
+.toggle{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:20px;
+  font-size:.78rem;color:var(--dim);font-weight:300;cursor:pointer;user-select:none}
+.toggle input{appearance:none;width:32px;height:18px;border-radius:100px;background:rgba(232,225,217,.10);
+  border:1px solid var(--line);position:relative;cursor:pointer;transition:.3s}
+.toggle input::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;
+  border-radius:50%;background:var(--dim);transition:.3s}
+.toggle input:checked{background:rgba(196,146,79,.25);border-color:var(--g2)}
+.toggle input:checked::after{left:16px;background:var(--g3)}
+.back{position:fixed;top:0;left:0;padding:20px 24px;z-index:12;background:none;border:none;
+  color:var(--dim);font-family:inherit;font-size:1.25rem;line-height:1;cursor:pointer;
+  opacity:.45;transition:opacity .3s}
+.back:hover{opacity:1}
+.place{display:block;margin:34px auto 0;background:none;border:none;color:var(--dim);
+  font-family:'Spectral',serif;font-style:italic;font-size:.92rem;cursor:pointer;opacity:.7}
+.place:hover{opacity:1}
+#author{max-width:560px;margin:0 auto;padding:12vh 28px 14vh}
+#author h2{font-family:'Spectral',serif;font-weight:200;font-size:1.9rem;margin-bottom:10px}
+#author .lead{color:var(--dim);font-size:.9rem;font-weight:300;line-height:1.7;margin-bottom:34px}
+#author label{display:block;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);margin:22px 0 8px}
+#author input,#author textarea{width:100%;background:var(--ink-soft);color:var(--paper);
+  border:1px solid var(--line);border-radius:2px;padding:14px;font-family:'Spectral',serif;
+  font-size:1rem;font-weight:300;line-height:1.7;resize:vertical}
+#author textarea{height:230px}
+#author input:focus,#author textarea:focus{outline:none;border-color:var(--g2)}
+#author .hint{font-size:.76rem;color:var(--dim);font-weight:300;margin-top:8px;opacity:.75}
+#author .place-btn{display:block;width:100%;margin-top:32px;padding:16px;background:var(--g2);
+  color:#17121C;border:none;border-radius:2px;font-family:inherit;font-size:1rem;
+  font-weight:500;cursor:pointer;transition:filter .2s}
+#author .place-btn:hover{filter:brightness(1.12)}
+.who{display:none;gap:8px;margin:0 0 22px}
+.who.on{display:flex}
+.who input{flex:1;background:var(--ink-soft);color:var(--paper);border:1px solid var(--line);
+  border-radius:2px;padding:14px;font-family:'Spectral',serif;font-size:1rem}
+.who input:focus{outline:none;border-color:var(--g2)}
+.who button{background:none;border:1px solid var(--g2);color:var(--g3);border-radius:2px;
+  padding:0 20px;font-family:inherit;cursor:pointer}
+.demo-note{margin-top:26px;font-size:.76rem;color:var(--dim);font-weight:300;opacity:.8}
+
+/* ─────────── the page ─────────── */
+.page{max-width:34em;margin:0 auto;padding:0 32px 26vh}
+.chapter{padding:13vh 0 8vh;text-align:center}
+.chapter .eyebrow{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  font-weight:400;margin-bottom:20px}
+.chapter h2{font-family:'Spectral',serif;font-weight:200;font-size:2rem;letter-spacing:-.01em;line-height:1.3}
+.chapter .rule{width:34px;height:1px;background:var(--g2);margin:26px auto 0;opacity:.55}
+
+.text{font-family:'Spectral',Georgia,serif;font-size:1.28rem;line-height:2.15;font-weight:300;
+  letter-spacing:.005em}
+.text p{margin-bottom:1.9em}
+.text p:first-of-type::first-letter{
+  font-size:3.2rem;line-height:.9;float:left;margin:.12em .1em 0 0;font-weight:200;color:var(--g3)}
+.s{cursor:pointer;padding:4px 3px;margin:0 -1px;border-radius:9px;display:inline;
+  transition:background .5s ease,color .5s ease}
+
+/* the walker: where the reader is standing right now */
+.s.step{position:relative;color:#FFFDF8 !important;
+  background:rgba(255,252,244,.13) !important;
+  box-shadow:0 0 30px 12px rgba(255,250,235,.20) !important;
+  text-shadow:0 0 16px rgba(255,250,235,.55) !important;
+  animation:none !important;transition:background .35s ease,box-shadow .35s ease}
+.s.step.lingering{background:rgba(255,252,244,.20) !important;
+  box-shadow:0 0 46px 20px rgba(255,250,235,.30) !important;
+  animation:linger 1.5s ease-in-out infinite !important}
+@keyframes linger{0%,100%{box-shadow:0 0 34px 14px rgba(255,250,235,.20)}
+  50%{box-shadow:0 0 52px 24px rgba(255,250,235,.38)}}
+
+/* level 1 — a steady low presence. level 2 — steadier and brighter.
+   level 3 — the only one that pulses: this is where it lit. */
+.s[data-v="1"]{color:#E4DCD2;background:rgba(133,110,155,.13);
+  box-shadow:0 0 14px 4px rgba(133,110,155,.10);animation:none}
+.s[data-v="2"]{color:#FAEDD6;background:rgba(207,158,87,.22);
+  box-shadow:0 0 26px 9px rgba(207,158,87,.22);text-shadow:0 0 14px rgba(230,183,110,.5);animation:none}
+.s[data-v="3"]{color:#FFF6E2;animation:p3 2.2s ease-in-out infinite}
+@keyframes p3{
+  0%,100%{background:rgba(247,220,166,.14);box-shadow:0 0 20px 6px rgba(247,220,166,.16);
+          text-shadow:0 0 10px rgba(247,220,166,.35)}
+  50%    {background:rgba(250,226,178,.40);box-shadow:0 0 48px 20px rgba(247,220,166,.46);
+          text-shadow:0 0 26px rgba(255,242,212,.95),0 0 56px rgba(230,183,110,.55)}}
+
+/* crowd — green light */
+.s.crowd[data-v="1"]{color:#DCE8E0;background:rgba(120,160,132,.13);
+  box-shadow:0 0 14px 4px rgba(120,160,132,.10);animation:none}
+.s.crowd[data-v="2"]{color:#E6F4EA;background:rgba(155,205,171,.22);
+  box-shadow:0 0 26px 9px rgba(155,205,171,.22);text-shadow:0 0 14px rgba(180,222,193,.5);animation:none}
+.s.crowd[data-v="3"]{color:#F2FCF5;animation:c3 2.2s ease-in-out infinite}
+@keyframes c3{
+  0%,100%{background:rgba(178,222,192,.14);box-shadow:0 0 20px 6px rgba(178,222,192,.16);
+          text-shadow:0 0 10px rgba(178,222,192,.35)}
+  50%    {background:rgba(190,232,204,.40);box-shadow:0 0 48px 20px rgba(178,222,192,.46);
+          text-shadow:0 0 26px rgba(224,246,232,.95),0 0 56px rgba(180,222,193,.55)}}
+
+@media (prefers-reduced-motion:reduce){.s,.mark{animation:none!important}}
+
+/* the room, breathing quietly at the foot of the page */
+.presence{position:fixed;bottom:0;left:0;right:0;padding:14px 22px 18px;z-index:8;
+  background:linear-gradient(transparent,rgba(21,18,27,.92) 45%);
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  font-size:.72rem;color:var(--dim);font-weight:300;letter-spacing:.03em;
+  transition:opacity .8s ease}
+.presence .dots{display:flex;gap:5px}
+.presence .dot{width:5px;height:5px;border-radius:50%;background:var(--crowd);
+  animation:here 3.2s ease-in-out infinite}
+.presence .word{opacity:.85}
+@keyframes here{0%,100%{opacity:.25;transform:scale(.85)}50%{opacity:.9;transform:scale(1.1)}}
+.presence .note{color:var(--paper);opacity:0;transition:opacity 1s ease;font-style:italic;
+  font-family:'Spectral',serif;font-size:.8rem}
+.presence .note.show{opacity:.75}
+
+/* following one reader */
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:26px 0 8px}
+.chip{background:none;border:1px solid var(--line);border-radius:100px;padding:7px 15px;
+  color:var(--dim);font-family:inherit;font-size:.78rem;cursor:pointer;transition:.25s}
+.chip:hover{border-color:var(--crowd);color:var(--paper)}
+.chip.on{border-color:var(--crowd);color:var(--paper);background:rgba(143,191,158,.09)}
+.replay{display:block;margin:14px auto 0;background:none;border:none;color:var(--crowd);
+  font-family:'Spectral',serif;font-style:italic;font-size:.9rem;cursor:pointer;opacity:.85}
+.replay:hover{opacity:1}
+.trace{text-align:center;font-size:.78rem;color:var(--dim);font-weight:300;
+  font-style:italic;font-family:'Spectral',serif;min-height:1.4em;margin-top:10px}
+
+/* the book: one spread at a time */
+#read .page{display:flex;flex-direction:column;min-height:100vh;padding-bottom:0}
+#read .text{flex:1}
+.leaf{display:none;animation:turn .45s ease}
+.leaf.on{display:block}
+@keyframes turn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:26px 0 40px;margin-top:6vh;border-top:1px solid var(--line)}
+.turn{background:none;border:none;color:var(--dim);font-family:'Spectral',serif;
+  font-size:1.5rem;line-height:1;cursor:pointer;padding:8px 12px;opacity:.5;
+  transition:opacity .3s}
+.turn:hover:not(:disabled){opacity:1}
+.turn:disabled{opacity:.12;cursor:default}
+.pageno{font-size:.7rem;letter-spacing:.16em;color:var(--dim);font-weight:300}
+.finish{display:block;margin:0 auto;padding:15px 34px;background:none;border:1px solid var(--g2);
+  border-radius:2px;color:var(--g3);font-family:'Spectral',serif;font-size:1.05rem;cursor:pointer}
+.whisper{position:fixed;top:0;left:0;right:0;padding:16px;text-align:center;font-size:.78rem;
+  color:var(--dim);font-weight:300;background:linear-gradient(var(--ink) 60%,transparent);
+  transition:opacity .8s ease;z-index:10;pointer-events:none}
+.whisper.gone{opacity:0}
+
+.endmark{text-align:center;padding:6vh 0 4vh;color:var(--dim);font-size:1.1rem;letter-spacing:.5em}
+.finish{display:block;margin:0 auto;padding:15px 34px;background:none;border:1px solid var(--g2);
+  border-radius:2px;color:var(--g3);font-family:'Spectral',serif;font-size:1.05rem;
+  cursor:pointer;transition:background .3s}
+.finish:hover{background:rgba(196,146,79,.1)}
+
+/* ─────────── reveal ─────────── */
+
+.bulbs{display:flex;justify-content:center;padding:12vh 0 4px}
+.bulb[hidden]{display:none}
+.bulb{background:none;border:none;cursor:pointer;font-family:inherit;padding:8px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:14px;opacity:.42;
+  transition:opacity .45s ease}
+.bulb.on{opacity:1}
+.bulb .globe{width:36px;height:44px;position:relative;display:flex;align-items:center;
+  justify-content:center;transition:transform .45s ease}
+.bulb .globe svg{width:100%;height:100%;overflow:visible}
+.bulb .glass{fill:currentColor;opacity:.10;transition:opacity .45s ease}
+.bulb .outline{fill:none;stroke:currentColor;stroke-width:1.4;opacity:.5;
+  stroke-linecap:round;stroke-linejoin:round}
+.bulb .cap{fill:none;stroke:currentColor;stroke-width:1.3;opacity:.45;stroke-linecap:round}
+.bulb .filament{fill:currentColor;stroke:currentColor;stroke-width:1.3;opacity:.55;
+  stroke-linecap:round;stroke-linejoin:round}
+.bulb .filament circle,.bulb .filament ellipse{stroke:none}
+.bulb .halo{opacity:0;transition:opacity .5s ease}
+.bulb.on .glass{opacity:.55}
+.bulb.on .outline,.bulb.on .cap{opacity:.85}
+.bulb.on .filament{opacity:1;stroke-width:1.6}
+.bulb.on .halo{opacity:1}
+.bulb.on .globe{animation:glow 3.4s ease-in-out infinite}
+.b-you {color:var(--g2)}
+.b-them{color:var(--crowd)}
+.export{margin-top:11vh;padding-top:34px;border-top:1px solid var(--line)}
+.export p{font-size:.78rem;color:var(--dim);font-weight:300;margin-bottom:10px}
+.export textarea{width:100%;height:110px;background:var(--ink-soft);color:var(--dim);
+  border:1px solid var(--line);border-radius:2px;padding:12px;font-size:.66rem;
+  font-family:ui-monospace,monospace;resize:vertical}
+.restart{background:none;border:1px solid var(--line);color:var(--dim);border-radius:2px;
+  padding:14px 22px;font-family:inherit;font-size:.88rem;cursor:pointer;margin-top:20px;width:100%}
+</style>
+</head>
+<body>
+
+<section id="start" class="screen on">
+  <div class="mark"></div>
+  <h1>Torchlit</h1>
+  <p class="sub" id="tagline" aria-label="Some lines stay lit."></p>
+  <div class="shelf" id="shelf"></div>
+  <div class="who" id="who">
+    <input id="readerName" placeholder="Your name" autocomplete="given-name">
+    <button onclick="saveName()">Enter</button>
+  </div>
+  <button class="place" onclick="show('author')">Place a piece</button>
+  <p class="demo-note" id="dbState"></p>
+</section>
+
+<section id="read" class="screen">
+  <button class="back" onclick="leaveReading()" aria-label="Back">←</button>
+  <div class="whisper" id="whisper"></div>
+  <div class="page">
+    <header class="chapter">
+      <div class="eyebrow" id="tEyebrow">Reading map</div>
+      <h2 id="tTitle"></h2>
+      <div class="rule"></div>
+    </header>
+    <div class="text" id="tText"></div>
+    <div class="foot">
+      <button class="turn" id="prevPage" onclick="turnPage(-1)" aria-label="Previous page">‹</button>
+      <span class="pageno" id="pageNo"></span>
+      <button class="turn" id="nextPage" onclick="turnPage(1)" aria-label="Next page">›</button>
+    </div>
+    <div id="endBlock" style="display:none">
+      <div class="endmark">· · ·</div>
+      <button class="finish" onclick="finish()">Finished</button>
+    </div>
+  </div>
+  <div class="presence" id="presence">
+    <span class="dots" id="pDots"></span>
+    <span class="word" id="pWord"></span>
+    <span class="note" id="pNote"></span>
+  </div>
+</section>
+
+<section id="reveal" class="screen">
+  <div class="page">
+    <div class="bulbs">
+      <button class="bulb b-you on" id="tabB" onclick="showMap('reader')" hidden>
+        <span class="globe"><svg viewBox="0 0 34 44" aria-hidden="true">
+          <defs><radialGradient id="htabB" cx="50%" cy="42%" r="50%">
+            <stop offset="0%" stop-color="currentColor" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+          </radialGradient></defs>
+          <circle class="halo" cx="17" cy="17" r="21" fill="url(#htabB)"/>
+          <path class="glass" d="M17 3a11 11 0 0 1 6.6 19.8c-1.3 1-1.9 2.1-2 3.4l-.2 2.3h-8.8l-.2-2.3c-.1-1.3-.7-2.4-2-3.4A11 11 0 0 1 17 3z"/>
+          <path class="outline" d="M17 3a11 11 0 0 1 6.6 19.8c-1.3 1-1.9 2.1-2 3.4l-.2 2.3h-8.8l-.2-2.3c-.1-1.3-.7-2.4-2-3.4A11 11 0 0 1 17 3z"/>
+          <path class="filament" d="M13.8 15.5c1.1-2.4 2.1 2.4 3.2 0s2.1 2.4 3.2 0"/>
+          <path class="cap" d="M12.6 32h8.8M13.4 35.6h7.2M15 39.2h4"/>
+        </svg></span><span class="lbl">Read</span></button>
+      
+      <button class="bulb b-them" id="tabC" onclick="toggleCommunity()">
+        <span class="globe"><svg viewBox="0 0 34 44" aria-hidden="true">
+          <defs><radialGradient id="htabC" cx="50%" cy="46%" r="52%">
+            <stop offset="0%" stop-color="currentColor" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+          </radialGradient></defs>
+          <circle class="halo" cx="17" cy="20" r="21" fill="url(#htabC)"/>
+          <g class="glass">
+            <circle cx="17" cy="11" r="5"/>
+            <path d="M8.5 30c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5z"/>
+            <circle cx="5.6" cy="16.4" r="3.6"/><circle cx="28.4" cy="16.4" r="3.6"/>
+          </g>
+          <g class="outline">
+            <circle cx="17" cy="11" r="5"/>
+            <path d="M8.5 30c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5"/>
+            <circle cx="5.6" cy="16.4" r="3.6"/><circle cx="28.4" cy="16.4" r="3.6"/>
+            <path d="M1.6 27.5c0-3.4 2.2-5.9 5-5.9"/>
+            <path d="M32.4 27.5c0-3.4-2.2-5.9-5-5.9"/>
+          </g>
+        </svg></span><span class="lbl">Community</span></button>
+    </div>
+    <div class="chips" id="rChips" style="display:none"></div>
+    <p class="demo-note" id="crowdNote" style="display:none;text-align:center;margin:6px 0 0">Demo readers — illustrative data, not real reader traces yet.</p>
+    <div class="trace" id="rTrace"></div>
+    <div class="text" id="rText"></div>
+    <div class="endmark">· · ·</div>
+    <div class="export">
+      <p>Session</p>
+      <textarea id="rData" readonly onclick="this.select()"></textarea>
+      <button class="restart" onclick="show('start')">Back to the shelf</button>
+    </div>
+  </div>
+</section>
+
+<section id="author" class="screen">
+  <button class="back" onclick="show('start')" aria-label="Back">←</button>
+  <h2>Place a piece</h2>
+  <p class="lead">Paste a passage. It will be split into sentences, and readers will light what stays with them.</p>
+
+  <label for="aTitle">Title</label>
+  <input id="aTitle" placeholder="The Pomelo Tree">
+
+  <label for="aBody">The piece</label>
+  <textarea id="aBody" placeholder="Paste the passage here. Leave a blank line between paragraphs."></textarea>
+  <p class="hint" id="aCount">—</p>
+
+  <button class="place-btn" onclick="placePiece()">Place it</button>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   DATABASE — paste your two values from
+   Supabase → Project Settings → API
+   Leave empty and the app runs locally, saving nothing.
+   ═══════════════════════════════════════════════════════════ */
+const SUPABASE_URL      = '';
+const SUPABASE_ANON_KEY = '';
+
+const db = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
+/* ═══════════════════════════════════════════════════════════
+   CONTENT — "" breaks a paragraph.
+   AUTHOR_MAP : your map, 0–3 per sentence   ← adjust to your intent
+   AI_MAP     : predicted map (later: from an LLM)
+   CROWD      : how many readers lit each sentence (demo data)
+   ═══════════════════════════════════════════════════════════ */
+const CROWD_TOTAL = 18;   // demo: number of other readers
+
+/* ═══════════════════════════════════════════════════════════
+   THE LIBRARY. Each piece: sentences ("" breaks a paragraph),
+   author map (your intent, 0-3), ai map, and demo crowd counts.
+   ═══════════════════════════════════════════════════════════ */
+const PIECES = [
+{
+  title: "Taqwa",
+  sentences: [
+    "As a child, I wanted money for one thing only: sweets.",
+    "The latest ones at the village supermarket - those brightly wrapped treasures lined like jewels on the shelf.",
+    "Eid was my payday.",
+    "Dressed in fresh clothes and armed with a sense of entitlement only children possess, we roamed the village from house to house, palms open, smiles wide.",
+    "No one owed us a thing, but it was a day designed to delight children, and we never questioned it.",
+    "",
+    "Relatives were the big banks - where bonuses dropped like gold coins.",
+    "By midday, our pockets sagged with clinking change, and by evening we'd collapse on our beds, emptying wallets onto the blanket in gleeful chaos.",
+    "We'd count, sort, and then guard that stash as if it were sacred.",
+    "That treasure would fund our candy runs for months.",
+    "",
+    "There was a secret shortcut to the candy store that only the neighbourhood kids knew - a narrow path threading through someone's private garden.",
+    "And in that garden stood a pomelo tree, its fruits impossibly large, suspended like golden moons.",
+    "They called to us.",
+    "We never dared pluck them, but the temptation lingered, sweet and sticky like the candies we craved.",
+    "",
+    "Months later, near the end of my stash, I passed by alone.",
+    "The fruit still hung there, ripe with allure.",
+    "I reached out, just to touch.",
+    "My fingers closed around one.",
+    "And then a voice - a woman's voice - startled me.",
+    "She'd seen everything.",
+    "She asked me to open my hand.",
+    "I did.",
+    "She didn't yell.",
+    "She didn't scold.",
+    "She simply took the last coins I had and walked away.",
+    "",
+    "That day, something shifted in me.",
+    "It wasn't about the money, nor the fruit.",
+    "It was the first time I've been treated like an adult, by an adult.",
+    "Paying the price for a crime.",
+    "I realised not everything comes free.",
+    "I think that was my first real lesson in accountability.",
+    "In the unseen moral lines that exist even when no one else is watching.",
+    "That moment planted a seed in me.",
+    "I'm being watched always.",
+    "I lost coins but gained compass.",
+    "Taqwa."
+  ],
+  author: [1,0,1,1,1,0, 0,1,1,0,0, 1,2,1,2,0, 1,1,2,2,2,2,2,3,1,1,3,0, 2,2,3,2,2,3,3,2,3,3,3],
+  ai:     [1,1,1,2,1,0, 1,2,1,1,0, 2,2,1,1,0, 1,1,2,2,3,2,2,1,1,1,3,0, 2,1,1,1,1,2,1,1,1,1,2],
+  crowd:  [3,2,4,5,3,0, 2,6,4,2,0, 5,11,4,7,0, 6,5,9,12,15,8,10,7,4,4,14,0, 11,9,8,6,7,9,6,5,6,8,10]
+},
+{
+  title: "Same Ingredients, Different Taste",
+  sentences: [
+    "Months after my mum passed away, I found myself more often in the kitchen, cooking the dishes she used to make for me.",
+    "That day, I wanted to make her kibbeh in soup.",
+    "",
+    "I turned on the stove and reached for the oil to heat it while I peeled the vegetables.",
+    "The bottle slipped right through my hands and crashed to the floor, spilling everywhere.",
+    "I froze, staring at the mess spreading under my feet.",
+    "Then I remembered - I used to keep the bottles loose so my mum could open them easily.",
+    "Her hands couldn't manage tight caps.",
+    "",
+    "I wiped the floor, quietly.",
+    "Then I opened the cabinet to get the peeler.",
+    "It was still in the same place - next to the soft-handled scissors and the potato masher with the thick grip.",
+    "All still organised the same way it was when she was alive.",
+    "",
+    "She had scleroderma.",
+    "Her fingers were stiff, bent slightly inward, like they were holding an invisible object.",
+    "To make things easier, I had placed everything she needed within easy reach: no high shelves, no heavy lids.",
+    "The spoons and ladles faced outward so she wouldn't have to twist her wrist.",
+    "Even the salt and pepper jars were placed with open mouths forward.",
+    "",
+    "Nothing had moved.",
+    "",
+    "Later that day, I looked around the house.",
+    "The bathroom sink was still arranged exactly as before.",
+    "Her toothbrush in the same cup.",
+    "The toothpaste rolled neatly from the bottom - just enough paste left to last one more use.",
+    "I used to keep the cap loose too, so she wouldn't struggle to open it.",
+    "Everything was still positioned for her hands.",
+    "",
+    "Then it hit me.",
+    "There was no need for it anymore.",
+    "",
+    "Still, I cooked.",
+    "I followed her recipe exactly - every spice, every step, the same way she taught me.",
+    "But when I tasted it, something was missing.",
+    "",
+    "I checked the spices.",
+    "All fine.",
+    "Nothing expired.",
+    "I called my aunt.",
+    "\"Maybe it's the cinnamon?\" I asked. \"Or the coriander? It doesn't taste like hers.\"",
+    "She said, \"No, you did it right. Just like she used to.\"",
+    "",
+    "But it wasn't the same.",
+    "It didn't taste like hers.",
+    "Not because I made a mistake.",
+    "Not because something was missing from the recipe.",
+    "",
+    "It was her rooh.",
+    "Her love, her care, her patience.",
+    "That's what made it taste alive.",
+    "And maybe it was the first time I truly understood what people mean when they say - you can taste someone's spirit in their food."
+  ],
+  author: [1,1,0, 1,2,2,3,2,0, 1,1,2,2,0, 2,2,2,1,1,0, 3,0, 1,1,1,3,2,2,0, 2,3,0, 1,2,2,0, 1,0,0,1,1,1,0, 2,2,1,1,0, 3,2,2,3],
+  ai:     [1,1,0, 1,2,2,1,1,0, 1,1,1,1,0, 2,2,1,1,1,0, 1,0, 1,1,1,1,1,1,0, 2,1,0, 1,1,2,0, 1,0,0,1,2,2,0, 1,1,1,1,0, 1,1,1,2],
+  crowd:  [4,3,0, 2,7,6,9,8,0, 5,2,6,7,0, 8,7,6,4,4,0, 13,0, 3,4,5,11,7,9,0, 10,12,0, 4,8,9,0, 2,1,1,3,5,4,0, 8,9,6,5,0, 14,10,9,12]
+},
+{
+  title: "The Letters We Used to Send Each Other",
+  sentences: [
+    "When we were twelve, we discovered the post office in our small community.",
+    "Suddenly, little girls became letter writers.",
+    "Even though we were classmates, even though we lived just a few houses apart and saw each other every day - we sent letters.",
+    "Real ones, with stamps.",
+    "",
+    "The mailman was amused.",
+    "\"Why are you paying to send a letter to someone you could hand it to?\" he'd ask.",
+    "",
+    "We didn't mind.",
+    "We weren't just sending words - we were creating a world.",
+    "",
+    "We decorated the envelopes with our best stickers: flowers, stars, hearts.",
+    "We saved our fanciest stationery for our closest friends, or for special occasions.",
+    "Shopping trips became missions - to find the prettiest paper, colourful markers, glitter pens, scented notes.",
+    "Later, when we discovered how to print our own cards, we asked for extra allowance - for printer ink.",
+    "",
+    "People laughed.",
+    "\"What's left to say to someone you talk to every day?\"",
+    "But they didn't understand.",
+    "This was our world.",
+    "",
+    "Checking the mailbox became a ritual.",
+    "Hoping to find something with our name on it - something not a bill, not for our parents, but for us.",
+    "A soft pastel envelope, hand-decorated, with your name written in bubble letters... that feeling.",
+    "You didn't even wait until you got home.",
+    "You wanted to tear it open on the spot.",
+    "",
+    "Inside: a note from your best friend, telling you she loves you.",
+    "That she misses you - though she just saw you two hours ago.",
+    "",
+    "It wasn't about the information.",
+    "It was about the anticipation.",
+    "",
+    "It was our way of building joy, of creating surprise.",
+    "The post office was our gateway to something magical.",
+    "And for a while, it worked.",
+    "It gave us something to look forward to."
+  ],
+  author: [1,1,2,1,0, 1,1,0, 1,3,0, 1,1,1,1,0, 1,1,1,2,0, 2,2,2,1,2,0, 2,2,0, 2,3,0, 2,2,1,3],
+  ai:     [1,1,1,1,0, 1,2,0, 1,1,0, 2,1,1,1,0, 1,1,1,1,0, 1,2,2,1,2,0, 2,1,0, 1,1,0, 1,2,1,1],
+  crowd:  [3,5,9,4,0, 4,7,0, 3,12,0, 6,5,7,6,0, 3,6,5,9,0, 8,10,13,6,8,0, 9,11,0, 7,14,0, 8,9,5,11]
+},
+{
+  title: "Anticipation",
+  sentences: [
+    "When we were kids, the last week of Ramadan always carried a different weight in the air.",
+    "You could feel the shift - like something joyous was quietly approaching.",
+    "Eid was coming, and that meant one thing: new clothes.",
+    "",
+    "There was a small clothing shop tucked in an uphill alley in the nearby city.",
+    "Everyone from our village knew it.",
+    "It was a mess - piles upon piles of clothes, stacked so high and wide it felt like treasure hunting.",
+    "But in that chaos, we always found something.",
+    "We'd spend what felt like hours there, rummaging, trying things on.",
+    "The air was thick with heat, dust, and the smell of fabric.",
+    "My father would haggle with the shopkeeper in a gentle tug-of-war that always ended with both of them smiling.",
+    "Then we'd head to a small restaurant to break our fast, the exhaustion and anticipation settling into satisfaction.",
+    "",
+    "But the real joy began when we got home.",
+    "I'd take the new outfit out of the bag and run my hands over the fabric - again and again, like I was memorising its feel.",
+    "Every day until Eid, I'd check on it.",
+    "I'd try it on again when no one was looking.",
+    "I'd fold it carefully and place it by my pillow the night before.",
+    "Waiting became a ritual of its own.",
+    "",
+    "That was how anticipation was built into us.",
+    "The joy of waiting.",
+    "The quiet patience that something good is coming.",
+    "That something new - something special - was just around the corner.",
+    "For a child, that feeling was everything.",
+    "",
+    "But the magic only lasted for about a week.",
+    "Then the clothes weren't new anymore.",
+    "Just clothes.",
+    "The fabric softened, the excitement dulled, and the anticipation vanished within a few hours of wearing them.",
+    "That's when I think I first sensed the fleeting nature of things.",
+    "Joy lives temporarily in the waiting, in the build-up."
+  ],
+  author: [1,2,1,0, 1,1,1,1,1,1,2,2,0, 2,3,2,2,2,3,0, 2,2,2,2,2,0, 2,2,1,2,3,3],
+  ai:     [1,1,2,0, 1,1,2,1,1,2,2,1,0, 1,2,1,1,1,1,0, 1,1,1,1,1,0, 1,1,1,2,1,1],
+  crowd:  [4,8,6,0, 3,2,7,4,6,9,11,7,0, 8,15,7,9,10,13,0, 9,8,7,10,8,0, 6,7,5,9,12,14]
+}
+];
+
+/* the piece currently open */
+let TITLE = PIECES[0].title;
+let SENTENCES = PIECES[0].sentences;
+let AUTHOR_MAP = PIECES[0].author;
+let AI_MAP = PIECES[0].ai;
+let CROWD = PIECES[0].crowd;
+
+/* demo: who else is in the room, and how each of them read it.
+   each journey is a list of [sentenceIndex, level] in the order they lit. */
+const ROOM = [
+  {name:'Noor',  progress:0.42, journey:[[12,2],[14,2],[20,3],[26,3],[28,2],[33,3],[37,3]]},
+  {name:'Samar', progress:0.78, journey:[[3,1],[7,2],[17,2],[20,3],[22,2],[26,3],[30,2],[34,2]]},
+  {name:'Rana',  progress:1.00, journey:[[12,3],[18,2],[20,2],[23,3],[26,2],[31,3],[33,2],[36,3],[37,3]]},
+  {name:'Dina',  progress:0.20, journey:[[6,1],[12,2],[16,2],[20,2],[26,3]]},
+];
+const ROOM_NOTES = [
+  'someone just reached the garden',
+  'someone is near the end',
+  'Rana finished this piece',
+  'someone stopped for a while at the tree',
+];
+
+/* ═══════════════════════════════════════════════════════════ */
+
+let readerId=null, sessionId=null, tapOrder=0, lastTapAt=0, furthest=0;
+let current=0, litStart=false, mode=null, values=[], touched=[], startedAt=null, match=0, crowdMatch=0;
+
+/* the tagline writes itself, then lights the way the text does */
+const TAGLINE = [
+  {w:'Some',  lvl:0},
+  {w:'lines', lvl:0},
+  {w:'stay',  lvl:0},
+  {w:'lit.',  lvl:3},
+];
+
+function runTagline(){
+  const box = document.getElementById('tagline');
+  if(!box) return;
+  box.innerHTML = '';
+  const spans = TAGLINE.map(({w}) => {
+    const s = document.createElement('span');
+    s.className = 'w'; s.textContent = w;
+    box.appendChild(s);
+    box.appendChild(document.createTextNode(' '));
+    return s;
+  });
+  // words arrive one by one
+  spans.forEach((s, i) => setTimeout(() => s.classList.add('in'), 500 + i * 260));
+  // then the light finds the word it belongs to
+  const after = 500 + spans.length * 260 + 700;
+  TAGLINE.forEach(({lvl}, i) => {
+    if(lvl > 0) setTimeout(() => spans[i].classList.add('l' + lvl), after + i * 200);
+  });
+}
+
+
+
+const readPieces = {};
+
+function whoAmI(){
+  try { readerId = localStorage.getItem('torchlit_reader'); } catch(e){}
+  document.getElementById('who').classList.toggle('on', !readerId && !!db);
+}
+
+async function saveName(){
+  const name = document.getElementById('readerName').value.trim();
+  if(!name) return;
+  if(db){
+    const { data, error } = await db.from('readers').insert({name}).select('id').single();
+    if(error){ console.error(error); return; }
+    readerId = data.id;
+  } else {
+    readerId = 'local-' + Date.now();
+  }
+  try { localStorage.setItem('torchlit_reader', readerId); } catch(e){}
+  document.getElementById('who').classList.remove('on');
+}
+
+/* ── load the shelf from the database; keep built-in pieces if empty ── */
+async function loadPieces(){
+  if(!db) return;
+  const { data: texts, error } = await db.from('texts').select('id,title').order('created_at');
+  if(error){ console.error(error); return; }
+  if(!texts.length) return;                      // nothing yet — keep the built-in shelf
+  const loaded = [];
+  for(const t of texts){
+    const { data: rows } = await db.from('sentences')
+      .select('id,position,content,author_level').eq('text_id', t.id).order('position');
+    const s = rows.map(r => r.content);
+    loaded.push({
+      id: t.id, title: t.title, sentences: s,
+      sentenceIds: rows.map(r => r.id),
+      author: rows.map(r => r.author_level || 0),
+      ai:     s.map(() => 0),
+      crowd:  s.map(() => 0)
+    });
+  }
+  PIECES.length = 0;
+  loaded.forEach(p => PIECES.push(p));
+}
+
+/* ── one-time: upload the four built-in pieces ──
+   run once from the browser console:  seedPieces()  */
+async function seedPieces(){
+  if(!db){ console.log('no database configured'); return; }
+  for(const p of PIECES){
+    const { data: t, error } = await db.from('texts').insert({title: p.title}).select('id').single();
+    if(error){ console.error(error); continue; }
+    const rows = p.sentences.map((content, position) => ({
+      text_id: t.id, position, content, author_level: p.author[position] || 0
+    }));
+    await db.from('sentences').insert(rows);
+    console.log('seeded', p.title);
+  }
+  console.log('done — reload the page');
+}
+
+function buildShelf(){
+  const box = document.getElementById('shelf');
+  if(!box) return;
+  box.innerHTML = '';
+  PIECES.forEach(function(p, k){
+    const b = document.createElement('button');
+    b.className = 'enter' + (readPieces[k] ? ' done' : '');
+    const n = p.sentences.filter(function(s){return s !== '';}).length;
+    b.innerHTML = '<span>' + p.title + '</span><span class="meta">' +
+                  (readPieces[k] ? 'read' : n + ' lines') + '</span>';
+    b.onclick = function(){ openPiece(k); };
+    box.appendChild(b);
+  });
+}
+
+function openPiece(k){
+  current = k;
+  TITLE = PIECES[k].title;
+  SENTENCES = PIECES[k].sentences;
+  AUTHOR_MAP = PIECES[k].author;
+  AI_MAP = PIECES[k].ai;
+  CROWD = PIECES[k].crowd;
+  if(readPieces[k]){
+    values = readPieces[k].values.slice();
+    touched = readPieces[k].touched.slice();
+    showMap('reader'); show('reveal'); window.scrollTo(0,0);
+  } else {
+    begin('clean');
+  }
+}
+
+async function openSession(){
+  sessionId = null; tapOrder = 0; lastTapAt = Date.now(); furthest = 0;
+  const p = PIECES[current];
+  if(!db || !readerId || !p.id) return;
+  const { data, error } = await db.from('sessions')
+    .insert({reader_id: readerId, text_id: p.id, mode: mode}).select('id').single();
+  if(error){ console.error(error); return; }
+  sessionId = data.id;
+}
+
+function leaveReading(){
+  document.getElementById('presence').style.display='none';
+  show('start');
+}
+
+function splitIntoSentences(text){
+  const out = [];
+  text.trim().split(/\n\s*\n/).forEach((para, k) => {
+    if(k) out.push('');
+    (para.replace(/\s+/g,' ').match(/[^.!?]+[.!?]*/g) || []).forEach(s => {
+      const t = s.trim(); if(t) out.push(t);
+    });
+  });
+  return out;
+}
+
+function placePiece(){
+  const title = document.getElementById('aTitle').value.trim();
+  const body  = document.getElementById('aBody').value.trim();
+  if(!title || !body) return;
+  const lines = splitIntoSentences(body);
+  if(db){
+    db.from('texts').insert({title}).select('id').single().then(async function(r){
+      if(r.error){ console.error(r.error); return; }
+      const rows = lines.map(function(content, position){
+        return {text_id: r.data.id, position: position, content: content};
+      });
+      await db.from('sentences').insert(rows);
+      await loadPieces(); buildShelf();
+    });
+  }
+  PIECES.push({
+    title: title,
+    sentences: lines,
+    author: lines.map(function(){return 0;}),
+    ai:     lines.map(function(){return 0;}),
+    crowd:  lines.map(function(){return 0;})
+  });
+  document.getElementById('aTitle').value = '';
+  document.getElementById('aBody').value = '';
+  document.getElementById('aCount').textContent = '\u2014';
+  buildShelf();
+  show('start');
+}
+
+function begin(m){
+  mode=m; startedAt=new Date().toISOString();
+  openSession();
+  values  = SENTENCES.map((s,i)=> s==='' ? 0 : (m==='assisted' ? AI_MAP[i] : 0));
+  touched = SENTENCES.map(()=>false);
+
+  document.getElementById('tTitle').textContent = TITLE;
+  document.getElementById('tEyebrow').textContent = 'Torchlit';
+  document.getElementById('whisper').classList.add('gone');
+
+  paginate();
+  renderLeaves();
+  show('read'); window.scrollTo(0,0);
+  startRoom();
+  if(m === 'clean') demonstrate();
+}
+
+/* the first line lights itself once, then lets go —
+   the gesture is shown rather than explained */
+function renderLeaves(){
+  const box = document.getElementById('tText');
+  box.innerHTML = '';
+  leaves.forEach(function(idxs){
+    const wrap = document.createElement('div');
+    wrap.className = 'leaf';
+    let p = document.createElement('p');
+    idxs.forEach(function(i){
+      const s = SENTENCES[i];
+      if(s === ''){ if(p.childNodes.length) wrap.appendChild(p); p = document.createElement('p'); return; }
+      const el = document.createElement('span');
+      el.className = 's'; el.dataset.v = values[i]; el.textContent = s + ' ';
+      el.setAttribute('role','button'); el.setAttribute('tabindex','0');
+      el.onclick = function(){ bump(i, el); };
+      el.onkeydown = function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); bump(i, el); } };
+      p.appendChild(el);
+    });
+    if(p.childNodes.length) wrap.appendChild(p);
+    box.appendChild(wrap);
+  });
+  showLeaf(0);
+}
+
+function demonstrate(){
+  const first = document.querySelector('#tText .leaf.on .s');
+  if(!first) return;
+  const held = first.dataset.v;
+  const steps = [[1, 900], [2, 1700], [3, 2500], [0, 4100]];
+  steps.forEach(function(step){
+    setTimeout(function(){
+      if(!touched.some(Boolean)) first.dataset.v = step[0];   // stop if she starts herself
+    }, step[1]);
+  });
+  setTimeout(function(){ if(!touched.some(Boolean)) first.dataset.v = held; }, 4400);
+}
+
+function startRoom(){
+  const here = ROOM.filter(r=>r.progress<1).length + 4;
+  document.getElementById('pWord').textContent = here+' reading now'+(db?'':' · demo');
+  const d=document.getElementById('pDots'); d.innerHTML='';
+  for(let k=0;k<Math.min(here,7);k++){
+    const s=document.createElement('span'); s.className='dot';
+    s.style.animationDelay=(k*.42)+'s'; d.appendChild(s);
+  }
+  let n=0;
+  const note=document.getElementById('pNote');
+  setInterval(()=>{
+    note.textContent='· '+ROOM_NOTES[n++%ROOM_NOTES.length];
+    note.classList.add('show');
+    setTimeout(()=>note.classList.remove('show'), 5200);
+  }, 9000);
+}
+
+/* the room's shared pace: average level each sentence drew across all readers */
+function groupLevel(i){
+  let sum=0;
+  ROOM.forEach(r=>{ const e=r.journey.find(([j])=>j===i); sum += e?e[1]:0; });
+  return sum/ROOM.length;                      // 0–3, fractional
+}
+function groupLit(i){ return Math.round(groupLevel(i)); }
+
+function crowdValue(i){ return Math.min(3, Math.round(CROWD[i]/CROWD_TOTAL*4)); }
+
+let leaves = [], leaf = 0;
+
+/* split the piece into pages — whole paragraphs, roughly a screen each */
+function paginate(){
+  const PER_PAGE = 9;              // sentences per page, paragraphs kept whole
+  leaves = [];
+  let cur = [], count = 0;
+  SENTENCES.forEach(function(s, i){
+    cur.push(i);
+    if(s !== '') count++;
+    const atBreak = (s === '');
+    if(atBreak && count >= PER_PAGE){ leaves.push(cur); cur = []; count = 0; }
+  });
+  if(cur.length) leaves.push(cur);
+  if(!leaves.length) leaves = [SENTENCES.map(function(_, i){ return i; })];
+}
+
+function showLeaf(k){
+  leaf = Math.max(0, Math.min(leaves.length - 1, k));
+  if(leaves[leaf] && leaves[leaf].length) furthest = Math.max(furthest, leaves[leaf][leaves[leaf].length - 1]);
+  document.querySelectorAll('#tText .leaf').forEach(function(el, i){
+    el.classList.toggle('on', i === leaf);
+  });
+  document.getElementById('prevPage').disabled = leaf === 0;
+  document.getElementById('nextPage').disabled = leaf === leaves.length - 1;
+  document.getElementById('pageNo').textContent = (leaf + 1) + ' / ' + leaves.length;
+  document.getElementById('endBlock').style.display =
+    leaf === leaves.length - 1 ? 'block' : 'none';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function turnPage(d){ showLeaf(leaf + d); }
+
+function renderInto(targetId, which, interactive){
+  const box=document.getElementById(targetId); box.innerHTML='';
+  let p=document.createElement('p');
+  SENTENCES.forEach((s,i)=>{
+    if(s===''){ box.appendChild(p); p=document.createElement('p'); return; }
+    const el=document.createElement('span');
+    let v=0, cls='s';
+
+    if(which==='crowd'){ cls+=' crowd';
+      v = Math.max(0, crowdValue(i) - values[i]);
+    }
+    else { v=values[i]; }
+
+    el.className=cls; el.dataset.v=v; el.textContent=s+' ';
+    if(interactive){
+      el.setAttribute('role','button'); el.setAttribute('tabindex','0');
+      el.onclick=()=>bump(i,el);
+      el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();bump(i,el);}};
+    } else { el.style.cursor='default'; }
+    p.appendChild(el);
+  });
+  box.appendChild(p);
+}
+
+function bump(i,el){
+  values[i]=(values[i]+1)%4; touched[i]=true; el.dataset.v=values[i];
+  recordTap(i, values[i]);
+}
+
+function recordTap(i, level){
+  const now = Date.now();
+  tapOrder++;
+  const row = {
+    session_id: sessionId,
+    sentence_id: (PIECES[current].sentenceIds || [])[i] || null,
+    level: level,
+    order_index: tapOrder,
+    ms_since_prev: now - lastTapAt,
+    marked_at_position: furthest          // how far she had read when she tapped
+  };
+  lastTapAt = now;
+  if(db && sessionId && row.sentence_id){
+    db.from('annotations').insert(row).then(r => { if(r.error) console.error(r.error); });
+  }
+}
+
+function finish(){
+  const real = SENTENCES.map((s,i)=>i).filter(i=>SENTENCES[i]!=='');
+  document.getElementById('rData').value = JSON.stringify({
+    text:TITLE, mode, startedAt, finishedAt:new Date().toISOString(),
+    sentences: real.map(i=>({i, ai:AI_MAP[i], author:AUTHOR_MAP[i],
+      reader:values[i], touched:touched[i], crowd:CROWD[i]}))
+  },null,1);
+  document.getElementById('presence').style.display='none';
+  readPieces[current] = {values: values.slice(), touched: touched.slice()};
+  if(db && sessionId){
+    db.from('sessions').update({finished_at: new Date().toISOString()})
+      .eq('id', sessionId).then(r => { if(r.error) console.error(r.error); });
+  }
+  buildShelf();
+  showMap('reader'); show('reveal'); window.scrollTo(0,0);
+}
+
+function toggleCommunity(){
+  const on = document.getElementById('tabC').classList.contains('on');
+  showMap(on ? 'reader' : 'crowd');
+}
+
+function showMap(which){
+  [['tabB','reader'],['tabC','crowd']].forEach(([id,k])=>
+    document.getElementById(id).classList.toggle('on', which===k));
+  const chips=document.getElementById('rChips');
+  const trace=document.getElementById('rTrace');
+  clearTimeout(replayTimer);
+  document.querySelectorAll('.replay').forEach(b=>b.remove());
+
+  document.getElementById('crowdNote').style.display = (which==='crowd' && !db) ? 'block' : 'none';
+  if(which==='crowd'){
+    chips.style.display='flex'; buildChips();
+    if(following==='room'){
+      trace.textContent='how the room travelled through it';
+      renderJourney(null); return;
+    }
+    if(following!==null){
+      trace.textContent='how '+ROOM[following].name+' travelled through it';
+      renderJourney(following); return;
+    }
+    trace.textContent='';
+  } else {
+    chips.style.display='none'; trace.textContent='';
+  }
+  renderInto('rText', which, false);
+}
+
+let following = 'room', replayTimer = null;
+
+function buildChips(){
+  const box=document.getElementById('rChips'); box.innerHTML='';
+  const all=document.createElement('button');
+  all.className='chip'+(following==='room'?' on':'');
+  all.textContent='Everyone';
+  all.onclick=()=>{ following='room'; showMap('crowd'); };
+  box.appendChild(all);
+  ROOM.forEach((r,k)=>{
+    const c=document.createElement('button');
+    c.className='chip'+(following===k?' on':'');
+    c.textContent=r.name;
+    c.onclick=()=>{ following=k; showMap('crowd'); };
+    box.appendChild(c);
+  });
+  if(following!==null){
+    const b=document.createElement('button');
+    b.className='replay';
+    b.textContent = following==='room' ? 'walk with the room' : 'walk with her';
+    b.onclick=()=>replay(following==='room' ? null : following);
+    box.parentNode.insertBefore(b, box.nextSibling);
+  }
+}
+
+function renderJourney(k, walkerIdx, lingering){
+  const lit={};
+  if(k===null){                                  // the whole room walking together
+    SENTENCES.forEach((s,i)=>{
+      if(s==='') return;
+      const v=groupLit(i);
+      if(v>0 && (walkerIdx===undefined || i<=walkerIdx)) lit[i]=v;
+    });
+  } else {
+    ROOM[k].journey.forEach(([i,v])=>{
+      if(walkerIdx===undefined || i<=walkerIdx) lit[i]=v;   // lamps left behind
+    });
+  }
+  const box=document.getElementById('rText'); box.innerHTML='';
+  let p=document.createElement('p');
+  SENTENCES.forEach((s,i)=>{
+    if(s===''){ box.appendChild(p); p=document.createElement('p'); return; }
+    const el=document.createElement('span');
+    el.className='s crowd'+(i===walkerIdx?' step'+(lingering?' lingering':''):'');
+    el.dataset.v=lit[i]||0;
+    el.textContent=s+' '; el.style.cursor='default';
+    if(i===walkerIdx) el.id='walker';
+    p.appendChild(el);
+  });
+  box.appendChild(p);
+  if(walkerIdx!==undefined){
+    const w=document.getElementById('walker');
+    if(w) w.scrollIntoView({block:'center',behavior:'smooth'});
+  }
+}
+
+function replay(k){
+  clearTimeout(replayTimer);
+  const who = k===null ? 'the room' : ROOM[k].name;
+  const levels = {};
+  if(k===null) SENTENCES.forEach((s,i)=>{ if(s!=='') levels[i]=groupLevel(i); });
+  else ROOM[k].journey.forEach(([i,v])=>levels[i]=v);
+  const path = SENTENCES.map((s,i)=>i).filter(i=>SENTENCES[i]!=='');
+  const trace = document.getElementById('rTrace');
+  let step = 0;
+
+  renderJourney(k, -1, false);
+
+  function walk(){
+    if(step >= path.length){
+      renderJourney(k);
+      trace.textContent = 'this is how '+who+' travelled through it';
+      return;
+    }
+    const i = path[step];
+    const lvl = levels[i] || 0;
+    const lingering = lvl >= 1.6;
+    renderJourney(k, i, lingering);
+    trace.textContent = lvl>=2.4 ? who+(k===null?' stopped here':' stopped here')
+                      : lvl>=1.6 ? who+' slowed down'
+                      : who+' is reading';
+    step++;
+    // she lingers where something caught her; walks on where it didn't
+    const dwell = 380 + lvl*950;
+    replayTimer = setTimeout(walk, dwell);
+  }
+  walk();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+
+/* a swipe turns the page too */
+(function(){
+  let x0 = null;
+  const read = document.getElementById('read');
+  if(!read) return;
+  read.addEventListener('touchstart', function(e){ x0 = e.changedTouches[0].clientX; }, {passive:true});
+  read.addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx) > 70) turnPage(dx < 0 ? 1 : -1);
+    x0 = null;
+  }, {passive:true});
+})();
+
+/* ── start ── */
+runTagline();
+whoAmI();
+document.getElementById('dbState').textContent = db ? '' : 'Local mode — nothing is saved';
+loadPieces().then(buildShelf);
+buildShelf();
+(function(){
+  const aBody = document.getElementById('aBody');
+  if(!aBody) return;
+  aBody.addEventListener('input', function(){
+    const n = splitIntoSentences(aBody.value).filter(function(s){return s !== '';}).length;
+    document.getElementById('aCount').textContent = n ? n + ' sentences' : '\u2014';
+  });
+})();
+</script>
+</body>
+</html>
