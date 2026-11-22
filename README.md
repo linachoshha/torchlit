@@ -24,6 +24,17 @@ lit it, so a later sentence can send her back to an earlier one.
 Front-end prototype. The reading and reveal experience works, but readings are not saved yet: the database
 integration is written but not connected, and the community view shows **demo readers**, not real reading data.
 
+## Share previews (prototype)
+
+Each piece gets its own share preview to post on WhatsApp, Instagram or LinkedIn with the link: a light walks
+through a few opening lines, leaves illustrative lights behind, and short notifications appear.
+
+![Share preview for Taqwa](pomelo-share.gif)
+
+Today the previews are made by a separate script, [`tools/make_share_preview.py`](tools/make_share_preview.py);
+building this into the app is planned. Two rules apply: notifications state only what is true when the preview is
+made, and the lights are illustrative, never a map of real readers' lights, so new readers are not steered.
+
 ## Why it exists
 
 TorchLit is the collection layer for Narrative Mirror. It is designed to gather voluntary, naturalistic,
